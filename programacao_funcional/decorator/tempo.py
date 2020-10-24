@@ -2,21 +2,24 @@ from functools import wraps
 from time import sleep, strftime
 
 
-def logar(f):
-    @wraps(f)
-    def run_with_time(*args, **kwargs):
-        print(strftime("%H:%M:%S"))
-        return f(*args, **kwargs)
+def logar(fmt="%H:%M:%S"):
+    def decorator(f):
+        @wraps(f)
+        def run_with_time(*args, **kwargs):
+            print(strftime(fmt))
+            return f(*args, **kwargs)
 
-    return run_with_time
+        return run_with_time
+
+    return decorator
 
 
-@logar
+@logar(fmt="%H:%M:%S")
 def hello(name):
     return f"Hello, {name}"
 
 
-@logar
+@logar(fmt="%Y-%m-%d %H:%M:%S")
 def hitchhiker():
     return 42
 
