@@ -1,20 +1,13 @@
 from functools import wraps
 from time import sleep, strftime
 
+from decorator import decorator, getfullargspec
 
-def logar(fn=None, *, fmt="%H:%M:%S"):
-    if fn is not None:
-        return logar(fmt=fmt)(fn)
 
-    def decorator(f):
-        @wraps(f)
-        def run_with_time(*args, **kwargs):
-            print(strftime(fmt))
-            return f(*args, **kwargs)
-
-        return run_with_time
-
-    return decorator
+@decorator
+def logar(f, fmt="%H:%M:%S", *args, **kwargs):
+    print(strftime(fmt))
+    return f(*args, **kwargs)
 
 
 @logar
@@ -28,6 +21,8 @@ def hitchhiker():
 
 
 if __name__ == "__main__":
+    print(getfullargspec(hitchhiker))
+    print(getfullargspec(hello))
     print(hitchhiker())
     print(hitchhiker.__name__)
     print(hello("Gabriel"))
