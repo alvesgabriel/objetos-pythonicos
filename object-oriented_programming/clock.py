@@ -1,17 +1,23 @@
 from time import strftime
 from tkinter import Label
 
-clock = Label()
-clock.pack()
 
-clock["font"] = "Helvetica 90 bold"
+class Clock(Label):
+    """
+    Create a clock
+    """
+    def __init__(self):
+        super().__init__()
+        self.pack()
+        self["font"] = "Helvetica 90 bold"
+        self["text"] = strftime("%H:%M:%S")
+        self.tictac()
 
-
-def tictac():
-    clock["text"] = strftime("%H:%M:%S")
-    clock.after(100, tictac)
+    def tictac(self):
+        self["text"] = strftime("%H:%M:%S")
+        self.after(100, self.tictac)
 
 
 if __name__ == "__main__":
-    tictac()
+    clock = Clock()
     clock.mainloop()
